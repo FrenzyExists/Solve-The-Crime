@@ -5,4 +5,9 @@ package frontend;
  * ncurses implementation for Java, pretty neat huh?
  */
 public class Parser {
+
+    // Let the fun begin hehe
+    public static void main(String[] args) {
+
+    }
 }
