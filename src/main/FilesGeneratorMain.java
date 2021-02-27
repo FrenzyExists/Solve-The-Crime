@@ -33,6 +33,9 @@ public class FilesGeneratorMain {
         DataGenerator dg = new DataGenerator(n, m, size);
         Object[][][] setsLists = dg.generateData();
 
+        dg.printSizes();        // Print n, m and the size of each set
+        dg.printSets();         // Print the freaking set
+
         PrintWriter paramsFile = new PrintWriter(new File(parentDirectory, "parameters.txt"));
         paramsFile.println(n);   // save parameter n
         paramsFile.println(m);   // save parameter m

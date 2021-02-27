@@ -96,10 +96,10 @@ public class DataGenerator {
 
     private int maxSize(Integer[][] sizes) {
         int mv = 0;
-        for (int i=0; i<sizes.length; i++)
-            for (int j=0; j<sizes[i].length; j++)
-                if (sizes[i][j] > mv)
-                    mv = sizes[i][j];
+        for (Integer[] size : sizes)
+            for (Integer integer : size)
+                if (integer > mv)
+                    mv = integer;
         return mv;
     }
 
@@ -138,25 +138,14 @@ public class DataGenerator {
         for (int i=0; i<n; i++)
             for (int j=0; j<m; j++) {
                 System.out.print("Set["+i+"]["+j+"] = ");
-                printArray((Integer[]) dataSet[i][j]);
+                printArray(dataSet[i][j]);
             }
     }
 
     private void printArray(Integer[] numbers) {
-        for (int i=0; i<numbers.length; i++)
-            System.out.print(numbers[i] + "  ");
+        for (Integer number : numbers) System.out.print(number + "  ");
         System.out.println();
     }
-
-    public static void main(String[] args) {
-        int totalSize = 2000;
-        int n = 20, m = 10;
-        DataGenerator dg = new DataGenerator(n, m, totalSize);
-        dg.generateData();
-        dg.printSizes();
-        dg.printSets();
-    }
-
 
 }
 

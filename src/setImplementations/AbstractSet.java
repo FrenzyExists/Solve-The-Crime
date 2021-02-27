@@ -10,8 +10,9 @@ public abstract class AbstractSet<E> implements FSet<E> {
         return size() == 0;
     }
 
-    public String toString() {
-        String s = "";
+        // generates a string of the form “{e1, e2, ..., en}”
+        public String toString() {
+        String s = "";              // where e1, e2, ..., en are the elements in the set
         boolean first = true;
         for (E e : this) {
             if (first) {
@@ -59,5 +60,7 @@ public abstract class AbstractSet<E> implements FSet<E> {
     public abstract Iterator<E> iterator();
     public abstract Object clone()  throws CloneNotSupportedException;
 }
+
+
 
 

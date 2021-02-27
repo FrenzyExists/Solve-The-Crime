@@ -6,8 +6,20 @@ package frontend;
  */
 public class Parser {
 
-    // Let the fun begin hehe
-    public static void main(String[] args) {
+    public Parser() {
+
+        System.out.println("Hi!\nThis is a simple program from a course");
+        // Display options to user
+
+        //
+
 
     }
+
+    private void readnstore() {
+
+    }
+
+
+
 }
