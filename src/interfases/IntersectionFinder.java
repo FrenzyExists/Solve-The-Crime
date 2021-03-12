@@ -14,6 +14,6 @@ public interface IntersectionFinder<T> {
      * @param famSet array containing the family of sets to be intersected.
      * @return the final intersection set (the result of intersecting all sets in t)
      */
-    FSet<T> intersectSets(FSet<T>[] famSet);
+    FSet<T> intersectSets(FSet<T>[] famSet) throws CloneNotSupportedException;
     String getName();
 }

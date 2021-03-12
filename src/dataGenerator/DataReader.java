@@ -19,7 +19,8 @@ public class DataReader {
 
 
     public DataReader() throws FileNotFoundException {
-        parentDirectory = "inputFiles";
+//        parentDirectory = "data-test";
+        parentDirectory = "testCases/inputFiles_1";
         Scanner parameters = new Scanner(new File(parentDirectory, "parameters.txt"));
         // the values of n and m shall be read from file: "inputFiles/parameters.txt".
         this.n = parameters.nextInt();
@@ -39,6 +40,7 @@ public class DataReader {
             for (int j=0; j<m; j++) {
 
                 String fileName = "F_" + i + "_" + j + ".txt";
+//                System.out.println(fileName);
                 Scanner inputFile = new Scanner(new File(parentDirectory, fileName));
                 ArrayList<Integer> fileContent = new ArrayList<>();
                 while (inputFile.hasNext())
@@ -49,7 +51,6 @@ public class DataReader {
         }
         return dataSet;
     }
-
 
     public void printSets() {
         System.out.println("Sets Fij are: " );
@@ -65,6 +66,7 @@ public class DataReader {
             System.out.print(numbers[i] + "  ");
         System.out.println();
     }
+
 
 
 }
