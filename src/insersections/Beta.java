@@ -1,8 +1,6 @@
-package solutionMethods;
+package insersections;
 
 import interfases.FSet;
-import main.IntersectionFinder;
-import setImplementations.Set1;
 import setImplementations.Set2;
 
 import java.util.Iterator;
@@ -11,7 +9,7 @@ import java.util.Iterator;
  * This is P2
  * Beta utilizes Set2, as part of the specifications given
  */
-public class Beta extends IntersectionFinder {
+public class Beta<T> extends IntersectionFinder {
 
     public Beta(String name) {
         super(name);
@@ -28,15 +26,15 @@ public class Beta extends IntersectionFinder {
      * @return the final intersection set (the result of intersecting all sets in t)
      */
     @Override
-    public FSet intersectSets(FSet[] famSet) {
+    public FSet<T> intersectSets(FSet[] famSet) {
 
-        Set2<Object> T = new Set2<>();
+        Set2<T> T = new Set2<>();
 
         int counter;
-        Iterator<Object> iter = famSet[0].iterator();
+        Iterator<T> iter = famSet[0].iterator();
         while(iter.hasNext()) {
             counter = 0;
-            Object target = iter.next();
+            T target = iter.next();
             for (FSet j : famSet) {
                 if (j.contains(target)) {
                     counter++;
@@ -46,7 +44,7 @@ public class Beta extends IntersectionFinder {
                 T.add(target);
             }
         }
-        System.out.println(T); // Some output test
         return T;
     }
 }
+

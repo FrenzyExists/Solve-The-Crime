@@ -12,15 +12,15 @@ public abstract class AbstractSet<E> implements FSet<E> {
 
         // generates a string of the form “{e1, e2, ..., en}”
         public String toString() {
-        String s = "";              // where e1, e2, ..., en are the elements in the set
+        StringBuilder s = new StringBuilder();              // where e1, e2, ..., en are the elements in the set
         boolean first = true;
         for (E e : this) {
             if (first) {
-                s = "{" + e;
+                s = new StringBuilder("{" + e);
                 first = false;
             }
             else
-                s += ", " + e;
+                s.append(", ").append(e);
         }
         return s + "}";
     }
@@ -55,6 +55,32 @@ public abstract class AbstractSet<E> implements FSet<E> {
         }
         return array;
 
+    }
+
+    /**
+     * for j = 0 -> m:
+     *     * create T_j
+     *     for i = 0 ->
+     *         * add unique elements to T_j
+     *      * Add T_j to the array of sets
+     */
+    public static FSet[] union(Object[][][] rawData) {
+        int m = rawData[0].length;
+        int counter = 0;
+
+        FSet[] t = new Set1[m];
+
+        for (int j=0 ; j<m ; j++) {
+            FSet ti = new Set1<>();
+            for (Object[][] rawDatum : rawData) {
+                for (Object k : rawDatum[j]) {
+                    ti.add( k);
+                }
+            }
+            t[counter] = ti;
+            counter++;
+        }
+        return t;
     }
 
     public abstract Iterator<E> iterator();

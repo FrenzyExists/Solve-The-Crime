@@ -1,18 +1,14 @@
-package solutionMethods;
+package insersections;
 
 import interfases.FSet;
-import main.IntersectionFinder;
 import setImplementations.Set1;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * This is P1
  * Alfa utilizes Set1, as part of the specifications given
  */
 
-public class Alfa extends IntersectionFinder {
+public class Alfa<T> extends IntersectionFinder {
 
     public Alfa(String name) {
         super(name);
@@ -21,8 +17,6 @@ public class Alfa extends IntersectionFinder {
     public Alfa() {
         super("P1");
     }
-
-
 
     /**
      * Intersects a family of sets.
@@ -37,19 +31,17 @@ public class Alfa extends IntersectionFinder {
      * @return the final intersection set (the result of intersecting all sets in t)
      */
     @Override
-    public FSet intersectSets(FSet[] famSet) throws CloneNotSupportedException {
-        Set1<Object> T = (Set1<Object>) famSet[0];
-        Set1<Object> T0 = (Set1<Object>) T.clone();
-        System.out.println(T);
+    public FSet<T> intersectSets(FSet[] famSet) throws CloneNotSupportedException {
+        Set1<T> T = (Set1<T>) famSet[0];
+        Set1<T> T0 = (Set1<T>) T.clone();
 
-        for (FSet j : famSet) {
-            for (Object x : T0) {
+        for (FSet<T> j : famSet) {
+            for (T x : T0) {
                 if (!j.contains(x)) {
                     T.remove(x);
                 }
             }
         }
-
         return T;
     }
 

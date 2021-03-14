@@ -1,7 +1,6 @@
-package solutionMethods;
+package insersections;
 
 import interfases.FSet;
-import main.IntersectionFinder;
 import setImplementations.Set2;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.Map;
  * This is P4
  * Yakama utilizes Set2, as part of the specifications given
  */
-public class Yakama extends Delta {
+public class Yakama<T> extends Delta {
     public Yakama(String name) {
         super(name);
     }
@@ -28,7 +27,7 @@ public class Yakama extends Delta {
      * @return the final intersection set (the result of intersecting all sets in t)
      */
     @Override
-     public FSet intersectSets(FSet[] famSet) {
+     public FSet<T> intersectSets(FSet[] famSet) {
 
         ArrayList<Integer> allElements = toArrayList(famSet);
 
@@ -37,24 +36,11 @@ public class Yakama extends Delta {
             Integer c = map.getOrDefault(e, 0);
             map.put(e, c+1);
         }
-        FSet<Integer> T = new Set2<>();
+        FSet<T> T = new Set2<>();
         for (Map.Entry<Integer, Integer> entry : map.entrySet())
             if (entry.getValue() == famSet.length)
-                T.add(entry.getKey());
+                T.add((T) entry.getKey());
 
-        System.out.println(T);
         return T;
     }
 }
-
-/*
-HashMap<Integer, Integer> map = new HashMap<>();
-for (Integer e : allElements) {
-     Integer c = map.getOrDefault(e, 0);
-     map.put(e, c+1);
-}
-MySet2<Integer> t = new Set2<>();
-for (Map.Entry<Integer, Integer> entry : map.entrySet())
-     if (entry.getValue() == m)
-        t.add(entry.getKey());
- */

@@ -17,12 +17,18 @@ public class DataReader {
     private Integer[][][] dataSet;
     private String parentDirectory;
 
-
     public DataReader() throws FileNotFoundException {
-//        parentDirectory = "data-test";
-        parentDirectory = "testCases/inputFiles_1";
+        String defaultDirectory = "data-test";
+        this.DataBuilder(defaultDirectory);
+    }
+
+    public DataReader(String path) throws FileNotFoundException{
+        this.DataBuilder(path);
+    }
+
+    private void DataBuilder(String path) throws FileNotFoundException {
+        parentDirectory = path;
         Scanner parameters = new Scanner(new File(parentDirectory, "parameters.txt"));
-        // the values of n and m shall be read from file: "inputFiles/parameters.txt".
         this.n = parameters.nextInt();
         this.m = parameters.nextInt();
         parameters.close();
@@ -30,8 +36,8 @@ public class DataReader {
 
     /**
      *
-     * @return
-     * @throws FileNotFoundException
+     * @return Object[][][] MultiArray
+     * @throws FileNotFoundException Either its a faulty path or the path does not contain files following the standard
      */
     public Object[][][] readDataFiles() throws FileNotFoundException {
         dataSet = new Integer[n][m][];
@@ -40,7 +46,6 @@ public class DataReader {
             for (int j=0; j<m; j++) {
 
                 String fileName = "F_" + i + "_" + j + ".txt";
-//                System.out.println(fileName);
                 Scanner inputFile = new Scanner(new File(parentDirectory, fileName));
                 ArrayList<Integer> fileContent = new ArrayList<>();
                 while (inputFile.hasNext())
@@ -52,22 +57,16 @@ public class DataReader {
         return dataSet;
     }
 
-    public void printSets() {
-        System.out.println("Sets Fij are: " );
-        for (int i=0; i<n; i++)
-            for (int j=0; j<m; j++) {
-                System.out.print("Set["+i+"]["+j+"] = ");
-                printArray((Integer[]) dataSet[i][j]);
-            }
-    }
+    /**
+     *
+     */
+
+
 
     private void printArray(Integer[] numbers) {
         for (int i=0; i<numbers.length; i++)
             System.out.print(numbers[i] + "  ");
         System.out.println();
     }
-
-
-
 }
 
