@@ -57,12 +57,6 @@ public class DataReader {
         return dataSet;
     }
 
-    /**
-     *
-     */
-
-
-
     private void printArray(Integer[] numbers) {
         for (int i=0; i<numbers.length; i++)
             System.out.print(numbers[i] + "  ");

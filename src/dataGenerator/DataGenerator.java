@@ -51,19 +51,21 @@ public class DataGenerator {
      * @return
      */
     public Object[][][] generateData() {
+        System.out.println("BUDU");
         dataSet = new Integer[n][m][];
         generateSizes();
         for (int i=0; i<n; i++) {
             for (int j=0; j<m; j++) {
                 //HashSet<Integer> set = new HashSet<>();
                 Set2<Integer> set = new Set2<>();
+                System.out.println("BUDU");
                 while(set.size() != this.sizes[i][j]) {
                     set.add(this.rnd.nextInt(maxRangeValue));
                 }
                 // add a common value to sets in row 0
                 if (i==0)
                     set.add(maxRangeValue);
-                dataSet[i][j] = (Integer[]) set.toArray(new Integer[0]);
+                dataSet[i][j] = set.toArray(new Integer[0]);
             }
         }
 

@@ -18,6 +18,10 @@ _/_/_/      _/_/    _/_/_/_/    _/      _/_/_/_/     _/_/_/    _/    _/       _/
 --method | -m   -- choose one of 4 available methods: p1, p2, p3, p4, all
 --save   | -s   -- save data to we_caught_him.txt
 --help   | -h   -- display this help and exit
+
+NOTE: In case a path to the tester is not specified a Solve will use the
+default path which is utilized for testing. If the folder is empty it will
+automatically generate the files
  "
  exit 1
 }
@@ -86,9 +90,8 @@ while test $# -gt 0; do
 done
 
 solve_em() {
-
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-    java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve Main $method $path_tester "$save_me,$path_to_save$solved_case_file_name"
+    java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve Main $method $path_tester "$save_me,$path_to_save,$solved_case_file_name"
 
   exit 1
 }
