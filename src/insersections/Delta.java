@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * This is P3
  * Delta utilizes Set2, as part of the specifications given
  */
-public class Delta<T> extends IntersectionFinder {
+public class Delta<T> extends IntersectionFinder<T> {
     public Delta(String name) {
         super(name);
     }
@@ -50,7 +50,8 @@ public class Delta<T> extends IntersectionFinder {
         return T;
     }
 
-    public ArrayList<T> toArrayList(FSet[] famSet) {
+
+    public <T> ArrayList<T> toArrayList(FSet<T>[] famSet) {
         ArrayList<T> arr = new ArrayList<>();
         for (FSet<T> fSet : famSet) {
             for (T t : fSet) {

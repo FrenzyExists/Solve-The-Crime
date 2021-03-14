@@ -8,7 +8,7 @@ import setImplementations.Set1;
  * Alfa utilizes Set1, as part of the specifications given
  */
 
-public class Alfa<T> extends IntersectionFinder {
+public class Alfa<T> extends IntersectionFinder<T> {
 
     public Alfa(String name) {
         super(name);

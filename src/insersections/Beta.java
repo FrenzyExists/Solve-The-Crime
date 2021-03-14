@@ -9,7 +9,7 @@ import java.util.Iterator;
  * This is P2
  * Beta utilizes Set2, as part of the specifications given
  */
-public class Beta<T> extends IntersectionFinder {
+public class Beta<T> extends IntersectionFinder<T> {
 
     public Beta(String name) {
         super(name);

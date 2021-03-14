@@ -4,73 +4,87 @@ import interfases.FSet;
 import setImplementations.Set1;
 
 import java.io.FileNotFoundException;
-
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
-
 
     // This is where things start... This initializes everything
     public static void main(String[] args) throws FileNotFoundException, CloneNotSupportedException {
 
+        String daPath;
+        IntersectionFinder<Integer>[] daSetArray = new IntersectionFinder[4];
 
-
-
-
-
-        int parm = 0;
 
         if (args.length < 1)
             return;
 
-//        System.out.println(args[1]);
-
+        System.out.println(args.length);
         for (String i : args)
             System.out.println(i);
         System.out.println("\n");
 
-        switch (args[0]) {
 
-            case "p1":
-                System.out.println("P1");
+        switch (args[1]) {
+            case "default":
+                daPath = "";
                 break;
-            case "p2":
-                System.out.println("P2");
-                break;
-            case "p3":
-                System.out.println("P3");
-                break;
-            case "p4":
-                System.out.println("P3");
-                break;
-            case "all":
-                System.out.println("P1P2P3P4");
-
-                break;
+            default :
+                daPath = args[1];
         }
-
-//        switch (args[1]) {
-//            case "default":
-//                System.out.println("IT WORKS");
-//                break;
-//        }
 
 //        switch (args[2]) {
 //            case "":
 //                ;
 //        }
 
-
-
-    }
-
-    private static String concat(String[] args) {
-        String result = "";
-        for (String arg : args) {
-            result += arg;
+        switch (args[0]) {
+            case "p1" -> daSetArray[0] = new Alfa<Integer>();
+            case "p2" -> daSetArray[1] = new Beta<Integer>();
+            case "p3" -> daSetArray[2] = new Delta<Integer>();
+            case "p4" -> daSetArray[3] = new Yakama<Integer>();
+            case "all" -> {
+                daSetArray[0] = new Alfa<Integer>();
+                daSetArray[1] = new Beta<Integer>();
+                daSetArray[2] = new Delta<Integer>();
+                daSetArray[3] = new Yakama<Integer>();
+            }
         }
-        return result;
+
+
+        DataReader test = new DataReader(daPath);
+        Object[][][] files = test.readDataFiles();
+
+        FSet<Integer>[] t = Set1.union(files);
+
+        for (IntersectionFinder<Integer> seaLaOstia : daSetArray) {
+            if (seaLaOstia != null) {
+                System.out.println( seaLaOstia.intersectSets(t).toString() );
+            }
+
+        }
+
+
+
+        // Are we checking a single folder with
+        Path child = Paths.get("daPath").toAbsolutePath();
+//        if ( isChild(child, daPath) ) {
+//
+//
+//        }
+
+
     }
+
+    private static boolean isChild(Path child, String parentText) {
+        Path parent = Paths.get(parentText).toAbsolutePath();
+        return child.startsWith(parent);
+    }
+
+
 }
+
+
 
 /**
  int parm = 0;

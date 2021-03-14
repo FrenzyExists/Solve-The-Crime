@@ -10,27 +10,23 @@ welcome() {
 _/_/_/      _/_/    _/_/_/_/    _/      _/_/_/_/     _/_/_/    _/    _/       _/_/_/  _/    _/  _/_/_/  _/      _/  _/_/_/_/
 
 
- version 0.1: Bitch Lasagna
+ version 0.1: Geek Lasagna
 
  Options:
 
---path-of-data  -- parse the path of the folder containing the data (F_i_j.txt)
---all           -- if it finds the path contains multiple foders process all of em
-                   else, just process the very first one
+--path-tester  -- parse the path of the folder containing the data (F_i_j.txt)
 --method        -- choose one of 4 available methods: p1, p2, p3, p4, all
--s              -- save data to we_caught_the_mtherfker.txt
+-s              -- save data to we_caught_him.txt
 -v              -- verbose aka print input data and solved data
 -h              -- display this help and exit
  "
  exit 1
 }
 
-additional_params=""
 default_path_to_save="$HOME/Documents/"
-solved_case_file_name="we_caught_the_mtherfker.txt"
-#method="null"
+solved_case_file_name="we_caught_him.txt"
 verbosity=0
-
+path_tester="default"
 
 if [[ "$1" == "" ]] ; then
   welcome
@@ -63,7 +59,7 @@ while test $# -gt 0; do
       shift
       if test $# -gt 0; then
         path_tester="$1"
-      else
+      elif [[ "$1"  == " " ]] ; then
         path_tester="default"
       fi
       shift
@@ -76,6 +72,8 @@ while test $# -gt 0; do
       shift
       if test $# -gt 0; then
         path_to_save="$1"
+      else
+        path_to_save="$default_path_to_save"
       fi
       shift
       ;;
@@ -85,18 +83,16 @@ while test $# -gt 0; do
   esac
 done
 
-
-
 solve_em() {
+
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
   additional_params="$verbosity,$save_me,$path_to_save$solved_case_file_name"
-  java -Dfile.encoding=UTF-8 -classpath $DIR/out/production/Solve Main $method $path_tester $additional_params
+
+  echo $path_tester
+  echo "\n\n"
+  java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve Main $method $path_tester "$additional_params"
 
   exit 1
-
 }
 
-
-#solve_em
-echo $path_to_tester
-echo $method
+solve_em

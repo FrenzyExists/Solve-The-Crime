@@ -11,7 +11,7 @@ import java.util.Map;
  * This is P4
  * Yakama utilizes Set2, as part of the specifications given
  */
-public class Yakama<T> extends Delta {
+public class Yakama<T> extends Delta<T> {
     public Yakama(String name) {
         super(name);
     }
@@ -29,12 +29,12 @@ public class Yakama<T> extends Delta {
     @Override
      public FSet<T> intersectSets(FSet[] famSet) {
 
-        ArrayList<Integer> allElements = toArrayList(famSet);
+        ArrayList<T> allElements = toArrayList(famSet);
 
         HashMap<Integer, Integer> map = new HashMap<>();
-        for (Integer e : allElements) {
+        for (T e : allElements) {
             Integer c = map.getOrDefault(e, 0);
-            map.put(e, c+1);
+            map.put((Integer) e, c+1);
         }
         FSet<T> T = new Set2<>();
         for (Map.Entry<Integer, Integer> entry : map.entrySet())
