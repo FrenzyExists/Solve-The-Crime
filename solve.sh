@@ -14,18 +14,16 @@ _/_/_/      _/_/    _/_/_/_/    _/      _/_/_/_/     _/_/_/    _/    _/       _/
 
  Options:
 
---path-tester  -- parse the path of the folder containing the data (F_i_j.txt)
---method        -- choose one of 4 available methods: p1, p2, p3, p4, all
--s              -- save data to we_caught_him.txt
--v              -- verbose aka print input data and solved data
--h              -- display this help and exit
+--path-tester   -- parse the path of the folder containing the data (F_i_j.txt)
+--method | -m   -- choose one of 4 available methods: p1, p2, p3, p4, all
+--save   | -s   -- save data to we_caught_him.txt
+--help   | -h   -- display this help and exit
  "
  exit 1
 }
 
 default_path_to_save="$HOME/Documents/"
 solved_case_file_name="we_caught_him.txt"
-verbosity=0
 path_tester="default"
 
 if [[ "$1" == "" ]] ; then
@@ -64,14 +62,18 @@ while test $# -gt 0; do
       fi
       shift
       ;;
-    -v)
-      verbosity="verbosity"
-      ;;
     -s)
       save_me="save"
       shift
       if test $# -gt 0; then
-        path_to_save="$1"
+        case "$1" in
+          */) path_to_save="$1"
+            break
+            ;;
+          *) path_to_save="$1"/
+            break
+            ;;
+        esac
       else
         path_to_save="$default_path_to_save"
       fi
@@ -86,11 +88,7 @@ done
 solve_em() {
 
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-  additional_params="$verbosity,$save_me,$path_to_save$solved_case_file_name"
-
-  echo $path_tester
-  echo "\n\n"
-  java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve Main $method $path_tester "$additional_params"
+    java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve Main $method $path_tester "$save_me,$path_to_save$solved_case_file_name"
 
   exit 1
 }
