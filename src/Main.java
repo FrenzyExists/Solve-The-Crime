@@ -1,3 +1,9 @@
+/*
+@author: Angel L Garcia Guzman
+Student ID: 802-17-6928
+Course and Section: ICOM4020-086
+ */
+
 import dataGenerator.DataReader;
 import insersections.*;
 import interfases.FSet;
@@ -11,19 +17,30 @@ public class Main {
     // This is where things start... This initializes everything
     public static void main(String[] args) throws FileNotFoundException, CloneNotSupportedException {
 
-        String daPath;
+        String daPath = ""; // This will hold the parsed path
         IntersectionFinder<Integer>[] daSetArray = new IntersectionFinder[4];
 
         // Kill the process, the wrapper is encharged of the verbose
         if (args.length < 1)
             return;
 
-        if ("default".equals(args[1])) {
-            daPath = "";
-        } else {
+        //
+        if (!"default".equals(args[1])) {
             daPath = args[1];
         }
 
+
+        // Get raw Data
+        DataReader rawData;
+        if (daPath.equals("")) {
+            GenerateMain.main(new String[]{"10", "10", "10"});
+            rawData = new DataReader();
+        }
+        else {
+            rawData = new DataReader(daPath);
+        }
+
+        // Parse arguments from wrapper
         switch (args[0]) {
             case "p1" -> daSetArray[0] = new Alfa<Integer>();
             case "p2" -> daSetArray[1] = new Beta<Integer>();
@@ -37,28 +54,22 @@ public class Main {
             }
         }
 
-        DataReader test;
-        if (daPath.equals("")) {
-            GenerateMain.main(new String[]{"10", "10", "10"});
-            test = new DataReader();
-        }
-        else {
-            test = new DataReader(daPath);
-        }
+        // Read Raw data
+        Object[][][] files = rawData.readDataFiles();
 
-
-        Object[][][] files = test.readDataFiles();
-
+        // Get Union of raw data
         FSet<Integer>[] t = Set1.union(files);
 
+        // Parse additional Params
         String[] para = args[2].split("\\,");
         int j = 0;
         FSet<Integer>[] res = new FSet[daSetArray.length];
 
-        for (IntersectionFinder<Integer> seaLaOstia : daSetArray) {
-            if (seaLaOstia != null) {
-                res[j] = seaLaOstia.intersectSets(t);
-                System.out.println( "Final Set By " + seaLaOstia.getName() + " " + seaLaOstia.intersectSets(t).toString() );
+        // Parse Intersects Implementaions to console
+        for (IntersectionFinder<Integer> technique : daSetArray) {
+            if (technique != null) {
+                res[j] = technique.intersectSets(t);
+                System.out.println( "Final Set By " + technique.getName() + " " + technique.intersectSets(t).toString() );
                 j++;
             }
         }
@@ -68,6 +79,7 @@ public class Main {
         }
     }
 
+    // Save intersection to a file, just in case
     private static void saveMe(String path, String file,  FSet<Integer>[] res) throws FileNotFoundException {
         PrintWriter paramsFile = new PrintWriter(new File(path, file));
 
@@ -77,5 +89,4 @@ public class Main {
         }
         paramsFile.close();
     }
-
 }

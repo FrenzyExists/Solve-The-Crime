@@ -51,14 +51,12 @@ public class DataGenerator {
      * @return
      */
     public Object[][][] generateData() {
-        System.out.println("BUDU");
         dataSet = new Integer[n][m][];
         generateSizes();
         for (int i=0; i<n; i++) {
             for (int j=0; j<m; j++) {
                 //HashSet<Integer> set = new HashSet<>();
                 Set2<Integer> set = new Set2<>();
-                System.out.println("BUDU");
                 while(set.size() != this.sizes[i][j]) {
                     set.add(this.rnd.nextInt(maxRangeValue));
                 }
@@ -93,7 +91,6 @@ public class DataGenerator {
         // determine the max size in s
         int maxSize = maxSize(sizes);
         maxRangeValue = (int) (maxSize);
-
     }
 
     private int maxSize(Integer[][] sizes) {
