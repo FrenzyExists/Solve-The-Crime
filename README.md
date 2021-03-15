@@ -31,8 +31,13 @@ Ok no, just joking. During the course we've been learning different structures l
 
 ## Sounds cool n all, but how can I run this?
 * At the moment you could manually compile the java code and run the `Main` wrapper in bash, but it is prefered if its done from an IDE such as [IntelliJ](https://www.jetbrains.com/idea/)
+* After the project is compiled move to the directory where `solve.sh` is located
+* Then type the following:
 
-* Af
+<\br>
+```chmod x+ solve.sh```
+<\br>
+```./solve.sh --method all -s --path-tester /path/of/stuff```
 
 ## TODO 🗒
 - [ ] Complete Optional Section
