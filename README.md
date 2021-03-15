@@ -34,9 +34,9 @@ Ok no, just joking. During the course we've been learning different structures l
 * After the project is compiled move to the directory where `solve.sh` is located
 * Then type the following:
 
-<\br>
+<br>
 ```chmod x+ solve.sh```
-<\br>
+<br>
 ```./solve.sh --method all -s --path-tester /path/of/stuff```
 
 ## TODO 🗒
