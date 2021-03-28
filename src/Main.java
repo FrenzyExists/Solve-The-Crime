@@ -42,15 +42,15 @@ public class Main {
 
         // Parse arguments from wrapper
         switch (args[0]) {
-            case "p1" -> daSetArray[0] = new Alfa<Integer>();
-            case "p2" -> daSetArray[1] = new Beta<Integer>();
-            case "p3" -> daSetArray[2] = new Delta<Integer>();
-            case "p4" -> daSetArray[3] = new Yakama<Integer>();
+            case "p1" -> daSetArray[0] = new AlfaBeta<>("P1");
+            case "p2" -> daSetArray[1] = new AlfaBeta<>("P2");
+            case "p3" -> daSetArray[2] = new Delta<>();
+            case "p4" -> daSetArray[3] = new Yakama<>();
             case "all" -> {
-                daSetArray[0] = new Alfa<Integer>();
-                daSetArray[1] = new Beta<Integer>();
-                daSetArray[2] = new Delta<Integer>();
-                daSetArray[3] = new Yakama<Integer>();
+                daSetArray[0] = new AlfaBeta<>("P1");
+                daSetArray[1] = new AlfaBeta<>("P2");
+                daSetArray[2] = new Delta<>();
+                daSetArray[3] = new Yakama<>();
             }
         }
 
@@ -65,7 +65,7 @@ public class Main {
         int j = 0;
         FSet<Integer>[] res = new FSet[daSetArray.length];
 
-        // Parse Intersects Implementaions to console
+        // Parse Intersects Implementations to console
         for (IntersectionFinder<Integer> technique : daSetArray) {
             if (technique != null) {
                 res[j] = technique.intersectSets(t);
