@@ -1,3 +1,5 @@
+package p1MainClasses;
+
 import dataGenerator.DataGenerator;
 
 import java.io.File;

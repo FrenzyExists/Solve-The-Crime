@@ -91,7 +91,7 @@ done
 
 solve_em() {
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-    java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve Main $method $path_tester "$save_me,$path_to_save,$solved_case_file_name"
+    java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve p1MainClasses.Main $method $path_tester "$save_me,$path_to_save,$solved_case_file_name"
 
   exit 1
 }

@@ -1,4 +1,4 @@
-/*
+package p1MainClasses;/*
 @author: Angel L Garcia Guzman
 Student ID: 802-17-6928
 Course and Section: ICOM4020-086
