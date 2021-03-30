@@ -34,13 +34,15 @@ Ok no, just joking. During the course we've been learning different structures l
 * After the project is compiled move to the directory where `solve.sh` is located
 * Then type the following:
 
-<br>
 ```chmod x+ solve.sh```
-<br>
+Then
 ```./solve.sh --method all -s --path-tester /path/of/stuff```
 
 ## TODO 🗒
 - [ ] Complete Optional Section
+
+### NOTE
+This branch merged Methods 1 and 2 (Alfa and Beta) as a single file as both utilize the same base loop
 
 <p align="center"><a href="https://github.com/Axarva/dotfiles-2.0/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-orange.svg?colorA=4c566a&colorB=88c0d0&style=for-the-badge&logo=mitsubishi"></a></p>
 
