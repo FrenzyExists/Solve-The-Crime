@@ -6,7 +6,6 @@ import setImplementations.Set2;
 
 /**
  * This is P1 and P2 in a single file
- * Beta utilizes Set2, as part of the specifications given
  */
 public class AlfaBeta<T> extends IntersectionFinder<T>{
     public AlfaBeta(String name) {

@@ -10,7 +10,7 @@ welcome() {
 _/_/_/      _/_/    _/_/_/_/    _/      _/_/_/_/     _/_/_/    _/    _/       _/_/_/  _/    _/  _/_/_/  _/      _/  _/_/_/_/
 
 
- version 0.1: Geek Lasagna
+ version 0.3: Mozzarella
 
  Options:
 

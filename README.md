@@ -22,7 +22,12 @@ Our job is to program something that takes a folder full of data, convert it int
 Well, this Set that the program outputs represents the number of events that appear in ALL events T. So, yeah, that's kinda it...
 ...
 ...
-... Actually no. It turns out there's an optional part of this project, which at the moment this current project does not have. According to the document, each technique to obtain the intersection varies in efficiency, the optinal part of the project was to display a stress run over each technique and plot the data on an excel program like Google Sheets, but again, that is not here, only the non optional
+... 
+Nope! This branch also contains a stress test, which is part of the optional part of this project. According to the document, each technique to obtain the intersection varies in efficiency, the optional part of the project was to display a stress run over each technique and plot the data on an excel program like Google Sheets. However, I thought this was quite silly. Why ploting the data manually over an external program when we have gnuplot to the the heavy-lifting for us?
+
+And so, this branch can plot the test in gnuplot (so make sure you have gnuplot installed). The stress tester also will pretty-print a data table and also has the option to save such in a csv file.
+
+
 
 ## So... ok, I get it, a college project, cool. But what is the purpose of it?
 #### Simple: ~make us suffer~ 🤣
@@ -31,7 +36,7 @@ Ok no, just joking. During the course we've been learning different structures l
 
 ## Sounds cool n all, but how can I run this?
 * At the moment you could manually compile the java code and run the `Main` wrapper in bash, but it is prefered if its done from an IDE such as [IntelliJ](https://www.jetbrains.com/idea/)
-* After the project is compiled move to the directory where `solve.sh` is located
+* After the project is compiled, move to the directory where `solve.sh` is located
 * Then type the following:
 
 ```chmod x+ solve.sh```
