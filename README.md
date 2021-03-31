@@ -1,12 +1,10 @@
 
 # Solve the Crime
 
-
-<a href="https://github.com/FrenzyExists/Solve-The-Crime/stargazers"><img src="https://img.shields.io/github/stars/FrenzyExists/Solve-The-Crime?colorA=4c566a&colorB=BF616A&style=for-the-badge&logo=starship"></a>
+<p align="center"><a href="https://github.com/FrenzyExists/Solve-The-Crime/stargazers"><img src="https://img.shields.io/github/stars/FrenzyExists/Solve-The-Crime?colorA=4c566a&colorB=BF616A&style=for-the-badge&logo=starship"></a>
 <a href="https://github.com/FrenzyExists/Solve-The-Crime/issues"><img src="https://img.shields.io/github/issues/FrenzyExists/Solve-The-Crime?colorA=4c566a&colorB=88C0D0&style=for-the-badge&logo=bugatti"></a>
 <a href="https://github.com/FrenzyExists/Solve-The-Crime/network/members"><img src="https://img.shields.io/github/forks/FrenzyExists/Solve-The-Crime?colorA=4c566a&colorB=BF616A&style=for-the-badge&logo=github"></a>
-
-[![Made withJava](https://img.shields.io/badge/Made%20with-Java-BF616A?style=for-the-badge&colorA=4c566a&logo=Java)](https://java.com/en/)
+<a href="https://java.com/en/"><img src="https://img.shields.io/badge/Made%20with-Java-BF616A?style=for-the-badge&colorA=4c566a&logo=Java"></a></p>
 
 
 <h3>:shipit: Oh Hello There! </h3>
