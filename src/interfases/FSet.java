@@ -3,9 +3,11 @@ package interfases;
 import java.util.Iterator;
 
 /**
- * Set interfase, kinda like the one form classes.
+ * Set interface, kinda like the one form classes.
  * Sets are kinda like bags: order does not matter, but unlike bags
  * you can delete things n stuff
+ *
+ * @param <T> Generic type of elements
  */
 public interface FSet<T> extends Iterable<T>, Cloneable {
     /** returns the current size of the set **/

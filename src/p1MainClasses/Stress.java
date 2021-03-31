@@ -1,7 +1,15 @@
 package p1MainClasses;
 
+import dataGenerator.DataGenerator;
 import indexlist.LinkedIndexList;
+import insersections.AlfaBeta;
+import insersections.Delta;
+import insersections.Yakama;
 import strategies.StrategyCollection;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 
 
 /**
@@ -62,9 +70,25 @@ public class Stress {
             params[i] = Integer.parseInt(args[i]);
         }
 
-
-
+        //
         Stress tester = new Stress(params[0], params[1], params[2], params[3]);
+
+        /**/
+        tester.addStrategy(new StrategyCollection<>(new AlfaBeta<>("P1")));
+        tester.addStrategy(new StrategyCollection<>(new AlfaBeta<>("P2")));
+        tester.addStrategy(new StrategyCollection<>(new Delta<>()));
+        tester.addStrategy(new StrategyCollection<>(new Yakama<>()));
+        /**/
+
+        tester.run();    // run the experiments on all the strategies added to the controller object (ec)
+
+        // save the results for each strategy....
+        try {
+            tester.saveResults();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
@@ -85,6 +109,51 @@ public class Stress {
         finalSize = fs;
         resultsPerStrategy = new LinkedIndexList<>();
     }
+
+    /**
+     *
+     * @param strategy
+     */
+    public void addStrategy(StrategyCollection<Integer> strategy) {
+        resultsPerStrategy.add(strategy);
+    }
+
+    /**
+     *
+     * @param n
+     * @param m
+     * @param size
+     * @return
+     */
+    private Object[][][] generateData(int n, int m, int size) {
+        DataGenerator dg = new DataGenerator(n, m, size);
+        Object[][][] data = dg.generateData();
+
+        return data;
+    }
+
+    public void saveResults() throws FileNotFoundException {
+
+        PrintStream out = new PrintStream(new File("experimentalResults", "allResults.txt"));
+        out.print("Size");
+
+        for (StrategyCollection<Integer> strats : resultsPerStrategy) {
+            out.println("\t" + strats.getStrategyName());
+        }
+
+        out.println();
+
+        int numberOfExperiments = resultsPerStrategy.get(0).size();
+        for (int i=0; i<numberOfExperiments; i++) {
+            out.print(resultsPerStrategy.get(0).get(i).getKey());
+            for (StrategyCollection<Integer> trc : resultsPerStrategy)
+                out.print("\t" + trc.get(i).getValue());
+            out.println();
+        }
+
+        out.close();
+    }
+
 
     /**
      *

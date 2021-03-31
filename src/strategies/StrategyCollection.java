@@ -1,7 +1,8 @@
 package strategies;
 
 import indexlist.LinkedIndexList;
-import interfases.Intersection;
+import interfases.FSet;
+import interfases.IntersectionFinder;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -26,8 +27,19 @@ import java.util.Map;
  */
 public class StrategyCollection<T> extends  LinkedIndexList<Map.Entry<Integer, Float>> {
     private float sum;
-    private Intersection<Integer> strategy;
+    private IntersectionFinder<T> strategy;
 
+    public StrategyCollection(IntersectionFinder<T> strategy) {
+        this.strategy = strategy;
+    }
+
+    /**
+     *
+     * @param data
+     */
+    public void runTrial(FSet<T>[] data) throws CloneNotSupportedException {
+        strategy.intersectSets(data);
+    }
 
     /**
      *
@@ -59,5 +71,13 @@ public class StrategyCollection<T> extends  LinkedIndexList<Map.Entry<Integer, F
      */
     public float getSum() {
         return sum;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getStrategyName() {
+        return strategy.getName();
     }
 }

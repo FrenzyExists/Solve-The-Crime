@@ -1,6 +1,6 @@
 package interfases;
 
-public interface IndexList<T> {
+public interface IndexList<T> extends Iterable<T>{
 
     /**
      *
