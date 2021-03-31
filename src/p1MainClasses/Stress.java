@@ -1,7 +1,18 @@
 package p1MainClasses;
 
+import indexlist.LinkedIndexList;
+import strategies.StrategyCollection;
+
+
 /**
  * Stress test all 4 methods. This is part of the optional part of the project
+ *
+ * Here, we represent an object data type that could carry the stress
+ * test to estimate execution times of a particular "Strategy" (Method)
+ * to solve each set intersection.
+ *
+ * f(x) <= cg(x), for all c <= k
+ *
  *
  * Example of basic output without any plotting
  *
@@ -15,9 +26,23 @@ package p1MainClasses;
  */
 public class Stress {
 
+    private int initialSize;
+    private int finalSize;
+    private int incrementalSizeStep;
+    private int repetitionsPerSize;
+
     /**
-     *
-     * @param args: n  m  isize  fsize  istep  rep graph
+     * The i-th position will contain a particular strategy being tested.
+     * At the end, the i-th position will also contain a list of pairs
+     * (n, t), where t is the estimated time for size n for the strategy
+     * at that position.
+     */
+    private LinkedIndexList<StrategyCollection<Integer>> resultsPerStrategy;
+
+    private static int[] params = new int[7]; // Params n stuff
+
+    /**
+     * @param args: n  m  isize  fsize  istep  rep  graph  save  path-to-save
      *
      * n - the number of companies
      * m - the number of crime events
@@ -29,14 +54,54 @@ public class Stress {
      */
     public static void main(String[] args) {
 
+        // Kill the process, the wrapper is the one managing the verbose
+        if (args.length < 1)
+            return;
+
+        for (int i=0 ; i < 5 ; i++) {
+            params[i] = Integer.parseInt(args[i]);
+        }
+
+
+
+        Stress tester = new Stress(params[0], params[1], params[2], params[3]);
+
     }
 
     /**
-     * Print
+     * The i-th position will contain a particular strategy being tested. At the end, the
+     * i-th position will also contain a list of pairs (n, t), where t is the estimated
+     * time for size n for the strategy at that position.
+     *
+     * @param is
+     * @param fs
+     * @param iss
+     * @param rep
      */
-    protected static void prettyPrint() {
+    public Stress(int is, int fs, int iss, int rep) {
+        initialSize = is;
+        repetitionsPerSize = rep;
+        incrementalSizeStep = iss;
+        finalSize = fs;
+        resultsPerStrategy = new LinkedIndexList<>();
+    }
+
+    /**
+     *
+     */
+    public void run() {
+        if (resultsPerStrategy.isEmpty()) {
+            throw new IllegalStateException("No strategy has been added.");
+        }
 
     }
+
+    /**
+     *
+     */
+    public void prettyPrint() {
+        if (resultsPerStrategy.isEmpty()) {
+            throw new IllegalStateException("No strategy has been added");
+        }
+    }
 }
-
-

@@ -20,7 +20,7 @@ public class Main {
         String daPath = ""; // This will hold the parsed path
         IntersectionFinder<Integer>[] daSetArray = new IntersectionFinder[4];
 
-        // Kill the process, the wrapper is encharged of the verbose
+        // Kill the process, the wrapper is the one managing the verbose
         if (args.length < 1)
             return;
 
