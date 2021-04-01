@@ -2,12 +2,14 @@ package indexlist;
 
 import interfases.IndexList;
 
-import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LinkedIndexList<T> implements IndexList<T> {
 
-    private Node<T> head; // references first node, this is NOT a dummy header
-    private int size;   // number of elements in the list
+    private Node<T> head;       // references first node, this is NOT a dummy header
+    private int size;           // number of elements in the list
+    private int current = 0;    // Current position, for iterators n stuff
+    private boolean validToRemove = false;
 
     public LinkedIndexList() {
         this.head = null;
@@ -70,6 +72,18 @@ public class LinkedIndexList<T> implements IndexList<T> {
     }
 
     /**
+     *
+     */
+    @Override
+    public void remove() {
+        if(!validToRemove) {
+            throw new IllegalStateException("There's no Elements to Remove!");
+        }
+        validToRemove = false;
+        remove(current-1);
+    }
+
+    /**
      * @param index
      * @param e
      * @return
@@ -99,14 +113,14 @@ public class LinkedIndexList<T> implements IndexList<T> {
 
         // if here, then the index is valid.
         Node<T> newNode = new Node<>(e);      // the new node to be linked to the LL
-        if (index == 0) {              // if true, then the new node shall become the new first
-            newNode.setNext(head);  // Notice that the previous condition is also true if size==0. Why?
+        if (index == 0) {                     // if true, then the new node shall become the new first
+            newNode.setNext(head);            // Notice that the previous condition is also true if size==0. Why?
             head = newNode;
         } else {
             // index > 0
             Node<T> prev = findNode(index-1);    // find node preceding location for insertion of new node
-            newNode.setNext(prev.getNext());   // properly inserting the new node between prev and its next
-            prev.setNext(newNode);             // properly inserting the new node between prev and its next
+            newNode.setNext(prev.getNext());           // properly inserting the new node between prev and its next
+            prev.setNext(newNode);                     // properly inserting the new node between prev and its next
         }
         size++;
     }
@@ -197,7 +211,7 @@ public class LinkedIndexList<T> implements IndexList<T> {
      */
     @Override
     public boolean hasNext() {
-        return false;
+        return current < this.size;
     }
 
     /**
@@ -206,7 +220,13 @@ public class LinkedIndexList<T> implements IndexList<T> {
      */
     @Override
     public T next() {
-        return null;
+        if (!hasNext()) {
+            throw new NoSuchElementException("There's no more Elements!");
+        }
+        T elem = this.get(current);
+        validToRemove = true;
+        current ++;
+        return elem;
     }
 }
 

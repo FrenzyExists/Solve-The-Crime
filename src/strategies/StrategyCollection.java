@@ -1,14 +1,9 @@
 package strategies;
 
-import dataGenerator.DataGenerator;
-import indexlist.LinkedIndexList;
-import insersections.AlfaBeta;
 import interfases.FSet;
-import interfases.IndexList;
 import interfases.IntersectionFinder;
-import setImplementations.Set1;
 
-import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -29,7 +24,7 @@ import java.util.Map;
  * IndexList<Map.Entry<Integer, Float>>
  *
  */
-public class StrategyCollection<T> extends  LinkedIndexList<Map.Entry<Integer, Float>> {
+public class StrategyCollection<T> extends ArrayList<Map.Entry<Integer, Float>> {
     private float sum;
     private IntersectionFinder<T> strategy;
 
@@ -60,14 +55,7 @@ public class StrategyCollection<T> extends  LinkedIndexList<Map.Entry<Integer, F
         sum += estimatedTime;
     }
 
-    /**
-     *
-     * @param mappy
-     * @param <E>
-     */
-    public <E> void add(AbstractMap.SimpleEntry<T, E> mappy) {
 
-    }
 
     /**
      *
@@ -83,39 +71,5 @@ public class StrategyCollection<T> extends  LinkedIndexList<Map.Entry<Integer, F
      */
     public String getStrategyName() {
         return strategy.getName();
-    }
-
-    public static void main(String[] args) throws CloneNotSupportedException {
-        int[] parms = {50, 1000, 50, 200};
-
-        IndexList<StrategyCollection<Integer>> resultsPerStrategy = new LinkedIndexList<>();
-        resultsPerStrategy.add(new StrategyCollection<>(new AlfaBeta<>("P1")));
-
-        for (int size=parms[0]; size<=parms[1]; size+=parms[2]) {
-//            System.out.println(size + " step");
-            Object[][][] data = generateData(10, 50, size);
-
-
-            while (resultsPerStrategy.hasNext()) {
-                StrategyCollection<Integer> strategy = resultsPerStrategy.next();
-
-                long startTime = System.nanoTime();
-                strategy.runTrial(Set1.union(data));
-                long endTime = System.nanoTime();
-                System.out.println(endTime);
-
-                strategy.incSum(endTime-startTime);
-                System.out.println(strategy.sum);
-
-            }
-        }
-
-    }
-
-    private static Object[][][] generateData(int n, int m, int size) {
-        DataGenerator dg = new DataGenerator(n, m, size);
-        Object[][][] data = dg.generateData();
-
-        return data;
     }
 }
