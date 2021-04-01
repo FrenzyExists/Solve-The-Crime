@@ -1,6 +1,8 @@
 package interfases;
 
-public interface IndexList<T> extends Iterable<T>{
+import java.util.Iterator;
+
+public interface IndexList<T> extends Iterator<T> {
 
     /**
      *

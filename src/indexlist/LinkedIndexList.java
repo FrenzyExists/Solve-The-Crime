@@ -191,8 +191,21 @@ public class LinkedIndexList<T> implements IndexList<T> {
         return target;    // node representing position index in the list
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
-    public Iterator<T> iterator() {
+    public boolean hasNext() {
+        return false;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public T next() {
         return null;
     }
 }

@@ -10,6 +10,7 @@ import strategies.StrategyCollection;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.AbstractMap;
 
 
 /**
@@ -66,7 +67,7 @@ public class Stress {
         if (args.length < 1)
             return;
 
-        for (int i=0 ; i < 5 ; i++) {
+        for (int i=0 ; i < 4 ; i++) {
             params[i] = Integer.parseInt(args[i]);
         }
 
@@ -83,12 +84,12 @@ public class Stress {
         tester.run();    // run the experiments on all the strategies added to the controller object (ec)
 
         // save the results for each strategy....
-        try {
-            tester.saveResults();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        try {
+//            tester.saveResults();
+//        } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -137,7 +138,8 @@ public class Stress {
         PrintStream out = new PrintStream(new File("experimentalResults", "allResults.txt"));
         out.print("Size");
 
-        for (StrategyCollection<Integer> strats : resultsPerStrategy) {
+        for (LinkedIndexList<StrategyCollection<Integer>> it = resultsPerStrategy; it.hasNext(); ) {
+            StrategyCollection<Integer> strats = it.next();
             out.println("\t" + strats.getStrategyName());
         }
 
@@ -146,8 +148,10 @@ public class Stress {
         int numberOfExperiments = resultsPerStrategy.get(0).size();
         for (int i=0; i<numberOfExperiments; i++) {
             out.print(resultsPerStrategy.get(0).get(i).getKey());
-            for (StrategyCollection<Integer> trc : resultsPerStrategy)
+            for (LinkedIndexList<StrategyCollection<Integer>> it = resultsPerStrategy; it.hasNext(); ) {
+                StrategyCollection<Integer> trc = it.next();
                 out.print("\t" + trc.get(i).getValue());
+            }
             out.println();
         }
 
@@ -159,8 +163,52 @@ public class Stress {
      *
      */
     public void run() {
-        if (resultsPerStrategy.isEmpty()) {
+        if (resultsPerStrategy.isEmpty())
             throw new IllegalStateException("No strategy has been added.");
+        for (int size=initialSize; size<=finalSize; size+=incrementalSizeStep) {
+            // For each strategy, reset the corresponding variable that will be used
+            // to store the sum of times that the particular strategy exhibits for
+            // the current size size
+            for (LinkedIndexList<StrategyCollection<Integer>> it = resultsPerStrategy; it.hasNext(); ) {
+                StrategyCollection<Integer> strategy = it.next();
+                strategy.resetSum();
+            }
+
+            // Run all trials for the current size.
+            for (int r = 0; r<repetitionsPerSize; r++) {
+                // The following will be the common dataset to be used in the current
+                // trial by all the strategies being tested.
+                Object[][][] data = generateData(size, 1000, 50);
+
+                // Apply each one of the strategies being tested using the previous
+                // dataset (of size size) as input; and, for each, estimate the time
+                // that the execution takes.
+                for (LinkedIndexList<StrategyCollection<Integer>> it = resultsPerStrategy; it.hasNext(); ) {
+                    StrategyCollection<Integer> strategy = it.next();
+                    // no need to clone the data set to be used by each strategy since
+                    // no modification of it is done in the process...
+                    long startTime = System.nanoTime(); // System.currentTimeMillis();   // time before
+
+//                    strategy.runTrial(data.clone());   // run the particular strategy...
+
+                    long endTime = System.nanoTime(); // System.currentTimeMillis();    // time after
+
+                    // accumulate the estimated time (add it) to sum of times that
+                    // the current strategy has exhibited on trials for datasets
+                    // of the current size.
+                    strategy.incSum((int) (endTime-startTime));
+
+                }
+            }
+
+            for (LinkedIndexList<StrategyCollection<Integer>> it = resultsPerStrategy; it.hasNext(); ) {
+                StrategyCollection<Integer> strategy = it.next();
+//                strategy.add(new AbstractMap.SimpleEntry<Integer, Float>
+//                        (size, (strategy.getSum()/((float) repetitionsPerSize))));
+            }
+
+            System.out.println(size);
+
         }
 
     }
