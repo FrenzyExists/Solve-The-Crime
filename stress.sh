@@ -23,19 +23,20 @@ _/_/_/        _/      _/    _/  _/_/_/_/  _/_/_/    _/_/_/
 
   Options:
 
-  --path-tester         -- parse the path of the folder containing the data (F_i_j.txt)
-  --company-size | -c   -- the number of companies that gave their phone calls reports for experimentation
-  --init-size    | -i   -- the initial size for experimentation
-  --final-size   | -f   -- final size for experimentation
-  --step-size    | -x   -- increment of sizes
-  --rep          | -r   -- number of repetitions for a each size
-  --plot         | -p   -- plot data using gnuplot
-  --save         | -s   -- save all output data
-  --help         | -h   -- display this help and exit
+  --path-tester    -- parse the path of the folder containing the data (F_i_j.txt)
+  --params  | -p   -- parameters for stress testers:
+                        n     -> The number of companies
+                        m     -> The number of crime events
+                        isize -> The initial size for experimentations
+                        fsize -> The final size for experimentation
+                        istep -> The increment of sizes
+                        rep   -> The number of repetitions for a each size
 
-  NOTE: In case a path to the tester is not specified a Solve will use the
-  default path which is utilized for testing. If the folder is empty it will
-  automatically generate the files
+  --default | -d   -- automatically run Stress tester with default parameters
+  --plot    | -p   -- plot data using gnuplot
+  --save    | -s   -- save all output data
+  --help    | -h   -- display this help and exit
+
   "
   exit 1
 }
@@ -43,7 +44,7 @@ _/_/_/        _/      _/    _/  _/_/_/_/  _/_/_/    _/_/_/
 default_path_to_save="$HOME/Documents/"   #
 stress_file_name="stress.txt"             #
 path_tester="default"                     #
-rep=200                                   # Default Stress Size, aka repetitions
+graph="false"                             #
 
 if [[ "$1" == "" ]] ; then
   welcome
@@ -54,37 +55,77 @@ while test $# -gt 0; do
     -h|--help)
       welcome
       ;;
-
-    -c|--company-size)
+    -p|--params)
       shift
-      if [[ "$1" == "p1" ]] ; then
+      case "$1" in # n
+        ''|*[!0-9]*)
+          printf "Please enter a positive Integer: n"
+          exit 1
+        ;;
+        *)
           n="$1"
-      elif [[ "$1" == "p1" ]] ; then
-          printf ""
+        ;;
+      esac
+      case "$2" in # m
+            ''|*[!0-9]*)
+          printf "Please enter a positive Integer: m"
           exit 1
-      else
-        printf "Please do not let this flag empty, enter path of desired data to be analyzed"
-        exit 1
-      fi
+        ;;
+        *)
+          m="$2"
+        ;;
+      esac
+      case "$3" in # isize
+        ''|*[!0-9]*)
+          printf "Please enter a positive Integer: initial size"
+          exit 1
+        ;;
+        *)
+          isize="$3"
+        ;;
+      esac
+      case "$4" in # fsize
+        ''|*[!0-9]*)
+          printf "Please enter a positive Integer: final size"
+          exit 1
+        ;;
+        *)
+          fsize="$4"
+        ;;
+      esac
+      case "$5" in # n
+        ''|*[!0-9]*)
+          printf "Please enter a positive Integer: increments of the size (Δx)"
+          exit 1
+        ;;
+        *)
+          istep="$6"
+        ;;
+      esac
+      case "$5" in # rep
+        ''|*[!0-9]*)
+          printf "Please enter a positive Integer: number of repetitions of each size"
+          exit 1
+        ;;
+        *)
+          rep="$6"
+        ;;
+      esac
       shift
-
       ;;
 
-        -i|--init-size)
-      shift
-      if [[ "$1" == "p1" ]] ; then
-          isize="$1"
-      elif [[ "$1" == "p1" ]] ; then
-          printf ""
-          exit 1
-      else
-        printf "Please do not let this flag empty, enter path of desired data to be analyzed"
-        exit 1
-      fi
-      shift
-
+    -d|--default)
+      # Default Values
+      n=10
+      m=50
+      isize=50
+      fsize=1000
+      istep=50
+      rep=200
+    ;;
+    -p|--plot)
+      graph="true"
       ;;
-
     --path-tester)
       shift
       if test $# -gt 0; then
@@ -117,14 +158,11 @@ while test $# -gt 0; do
   esac
 done
 
-
-
 stress_me() {
     DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-#    java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve p1MainClasses.Stress $method $path_tester "$save_me,$path_to_save,$solved_case_file_name"
-    java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve p1MainClasses.Stress $n $m $isize $fsize $rep $graph $path_tester "$save_me,$path_to_save,$stress_file_name"
+    java -Dfile.encoding=UTF-8 -classpath "$DIR"/out/production/Solve p1MainClasses.Stress "$n,$m,$isize,$fsize,$istep,$rep" $graph $path_tester "$save_me,$path_to_save,$stress_file_name"
   exit 1
 }
 
+# Fire the torture!!!
 stress_me
-
