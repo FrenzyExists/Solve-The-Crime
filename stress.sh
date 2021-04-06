@@ -99,10 +99,10 @@ while test $# -gt 0; do
           exit 1
         ;;
         *)
-          istep="$6"
+          istep="$5"
         ;;
       esac
-      case "$5" in # rep
+      case "$6" in # rep
         ''|*[!0-9]*)
           printf "Please enter a positive Integer: number of repetitions of each size"
           exit 1

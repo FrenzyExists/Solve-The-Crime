@@ -95,11 +95,6 @@ public class Stress {
 
         Stress tester = new Stress((Integer) params.get(0), (Integer) params.get(1), (Integer) params.get(2), (Integer) params.get(3), (Integer) params.get(4), (Integer) params.get(5));
 
-
-        for (String arg : args) {
-            System.out.println(arg);
-        }
-
         /* Adding each strategy aka each method utilized */
         tester.addStrategy(new StrategyCollection<>(new AlfaBeta<>("P1")));
         tester.addStrategy(new StrategyCollection<>(new AlfaBeta<>("P2")));
@@ -107,14 +102,16 @@ public class Stress {
         tester.addStrategy(new StrategyCollection<>(new Yakama<>()));
         /* | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |*/
 
-
         tester.run();
 
         tester.prettyPrint();
 
         // In case user wants to save...
         if (params.contains("save")) {
+
             try {
+                tester.setDirectoryName((String) params.get(8));
+                tester.setFileName((String) params.get(9));
                 tester.saveResults();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -135,7 +132,7 @@ public class Stress {
      * @param iss
      * @param rep
      */
-    public Stress(int n, int m, int is, int fs, int iss, int rep, String ...save) {
+    public Stress(int n, int m, int is, int fs, int iss, int rep) {
         this.n = n;
         this.m = m;
         this.initialSize = is;
@@ -145,8 +142,17 @@ public class Stress {
         this.resultsPerStrategy = new ArrayList<>();
     }
 
+    public void setDirectoryName(String newDirectory) {
+        directoryName = newDirectory;
+    }
+
+    public void setFileName(String newFileName) {
+        fileName = newFileName;
+    }
+
+
     /**
-     *
+     * Adds a strategy (method to get intersection) to our collection
      * @param strategy
      */
     public void addStrategy(StrategyCollection<Integer> strategy) {
@@ -154,7 +160,7 @@ public class Stress {
     }
 
     /**
-     *
+     * Generates random data. That's it
      * @param n
      * @param m
      * @param size
@@ -162,23 +168,22 @@ public class Stress {
      */
     private Object[][][] generateData(int n, int m, int size) {
         DataGenerator dg = new DataGenerator(n, m, size);
-
         return dg.generateData();
     }
 
     public void saveResults() throws FileNotFoundException {
 
         PrintStream out = new PrintStream(new File(directoryName, fileName));
-        out.print("Size");
+        out.print("Size,");
         for (StrategyCollection<Integer> trc : resultsPerStrategy)
-            out.printf("%14s", trc.getStrategyName());
+            out.print(trc.getStrategyName() + ",");
         out.println();
 
         int numberOfExperiments = resultsPerStrategy.get(0).size();
         for (int i=0; i<numberOfExperiments; i++) {
-            out.print(resultsPerStrategy.get(0).get(i).getKey());
+            out.print(resultsPerStrategy.get(0).get(i).getKey() + ",");
             for (StrategyCollection<Integer> trc : resultsPerStrategy)
-                out.printf("%14s", trc.get(i).getValue());
+                out.print(trc.get(i).getValue() + ",");
             out.println();
         }
 
@@ -238,7 +243,10 @@ public class Stress {
     }
 
     /**
-     *
+     * Prints the data in a nice table
+     * I had to yoink a table code from StackOverflow and blew up too much time trying to force it to use the data
+     * directly instead of creating a list or something, which didn't worked at all, so i used the regular array like
+     * the class needed
      */
     public void prettyPrint() {
         if (resultsPerStrategy.isEmpty()) {
