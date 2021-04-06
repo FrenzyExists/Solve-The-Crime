@@ -33,7 +33,7 @@ _/_/_/        _/      _/    _/  _/_/_/_/  _/_/_/    _/_/_/
                         rep   -> The number of repetitions for a each size
 
   --default | -d   -- automatically run Stress tester with default parameters
-  --plot    | -p   -- plot data using gnuplot
+  --plot    | -g   -- plot data using gnuplot
   --save    | -s   -- save all output data
   --help    | -h   -- display this help and exit
 
@@ -41,8 +41,8 @@ _/_/_/        _/      _/    _/  _/_/_/_/  _/_/_/    _/_/_/
   exit 1
 }
 
-default_path_to_save="$HOME/Documents/"   #
-stress_file_name="stress.txt"             #
+default_path_to_save="$HOME/Documents/"
+stress_file_name="stress.csv"             #
 path_tester="default"                     #
 graph="false"                             #
 
@@ -115,7 +115,9 @@ while test $# -gt 0; do
       ;;
 
     -d|--default)
+
       # Default Values
+      shift
       n=10
       m=50
       isize=50
@@ -123,8 +125,10 @@ while test $# -gt 0; do
       istep=50
       rep=200
     ;;
-    -p|--plot)
+    -g|--plot)
+      shift
       graph="true"
+
       ;;
     --path-tester)
       shift
@@ -135,7 +139,7 @@ while test $# -gt 0; do
       fi
       shift
       ;;
-    -s)
+    -s|--save)
       save_me="save"
       shift
       if test $# -gt 0; then

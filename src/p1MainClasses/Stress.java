@@ -6,12 +6,12 @@ import insersections.Delta;
 import insersections.Yakama;
 import setImplementations.Set1;
 import strategies.StrategyCollection;
+import table.TableGenerator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.AbstractMap;
-import java.util.ArrayList;
+import java.util.*;
 
 
 /**
@@ -42,6 +42,8 @@ public class Stress {
     private int finalSize;
     private int incrementalSizeStep;
     private int repetitionsPerSize;
+    private String directoryName;
+    private String fileName;
 
     /**
      * The i-th position will contain a particular strategy being tested.
@@ -50,8 +52,6 @@ public class Stress {
      * at that position.
      */
     private ArrayList<StrategyCollection<Integer>> resultsPerStrategy;
-
-    private static int[] params = new int[7]; // Params n stuff
 
     /**
      * @param args: n  m  isize  fsize  istep  rep  graph  save  path-to-save
@@ -64,20 +64,41 @@ public class Stress {
      * rep - number of repetitions for a each size
      * graph - boolean val: true -> plot with gnuplot | false -> output table of values only
      */
-    public static void main(String[] args) throws FileNotFoundException, CloneNotSupportedException {
+    public static void main(String[] args) throws CloneNotSupportedException {
 
         // Kill the process, the wrapper is the one managing the verbose
-//        if (args.length < 1) {
-//            return;
-//        }
+        if (args.length < 1) {
+            return;
+        }
 
-        // parse em
-//        for(int i=0; i<4; i++) {
-//            params[i] = Integer.parseInt(args[i]);
-//        }
+        /* Basic Structure of each param:
+         * [0] -> 10,50,50,1000,50,200
+         * [1] -> false
+         * [2] -> default
+         * [3] -> save,/home/frenzy/Documents/,stress.csv
+         */
 
-        params = new int[]{10, 10, 50, 1000, 50, 200};
-        Stress tester = new Stress(params[0], params[1], params[2], params[3], params[4], params[5]);
+//        LinkedIndexList<Object> params = new LinkedIndexList<>(); // It has some problems related to for-each loops, so until i have that fixed i'll have to use Java's
+
+        // Save the Stress Params
+        ArrayList<Object> params = new ArrayList<>();
+        for(String i : args[0].split("\\,")) {
+            params.add(Integer.parseInt(i));
+        }
+        if (args[1].equals("true")) {
+            params.add(true);
+        } else {
+            params.add(false);
+        }
+
+        params.addAll(Arrays.asList(args[3].split("\\,"))); // Break the Save params
+
+        Stress tester = new Stress((Integer) params.get(0), (Integer) params.get(1), (Integer) params.get(2), (Integer) params.get(3), (Integer) params.get(4), (Integer) params.get(5));
+
+
+        for (String arg : args) {
+            System.out.println(arg);
+        }
 
         /* Adding each strategy aka each method utilized */
         tester.addStrategy(new StrategyCollection<>(new AlfaBeta<>("P1")));
@@ -86,11 +107,19 @@ public class Stress {
         tester.addStrategy(new StrategyCollection<>(new Yakama<>()));
         /* | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |*/
 
+
         tester.run();
 
-        tester.saveResults();
+        tester.prettyPrint();
 
-
+        // In case user wants to save...
+        if (params.contains("save")) {
+            try {
+                tester.saveResults();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -106,7 +135,7 @@ public class Stress {
      * @param iss
      * @param rep
      */
-    public Stress(int n, int m, int is, int fs, int iss, int rep) {
+    public Stress(int n, int m, int is, int fs, int iss, int rep, String ...save) {
         this.n = n;
         this.m = m;
         this.initialSize = is;
@@ -133,24 +162,23 @@ public class Stress {
      */
     private Object[][][] generateData(int n, int m, int size) {
         DataGenerator dg = new DataGenerator(n, m, size);
-        Object[][][] data = dg.generateData();
 
-        return data;
+        return dg.generateData();
     }
 
     public void saveResults() throws FileNotFoundException {
 
-        PrintStream out = new PrintStream(new File("experimentalResults", "allResults.txt"));
+        PrintStream out = new PrintStream(new File(directoryName, fileName));
         out.print("Size");
         for (StrategyCollection<Integer> trc : resultsPerStrategy)
-            out.print("\t" + trc.getStrategyName());
+            out.printf("%14s", trc.getStrategyName());
         out.println();
 
         int numberOfExperiments = resultsPerStrategy.get(0).size();
         for (int i=0; i<numberOfExperiments; i++) {
             out.print(resultsPerStrategy.get(0).get(i).getKey());
             for (StrategyCollection<Integer> trc : resultsPerStrategy)
-                out.print("\t" + trc.get(i).getValue());
+                out.printf("%14s", trc.get(i).getValue());
             out.println();
         }
 
@@ -216,5 +244,32 @@ public class Stress {
         if (resultsPerStrategy.isEmpty()) {
             throw new IllegalStateException("No strategy has been added");
         }
+        ArrayList<String> headers = new ArrayList<>();
+
+        headers.add("Size");
+        for (StrategyCollection<Integer> trc : resultsPerStrategy) {
+            headers.add(trc.getStrategyName());
+        }
+
+        List<List<String>> rowsList = new ArrayList<>();
+
+        for (int i = 0 ; i<resultsPerStrategy.get(0).size() ; i++ ) {
+            List<String> row = new ArrayList<>();
+            row.add(resultsPerStrategy.get(0).get(i).getKey().toString());
+            for (int j = 0 ;j<headers.size()-1; j++) {
+
+                row.add(resultsPerStrategy.get(j).get(i).getValue().toString());
+
+            }
+            rowsList.add(row);
+        }
+
+        // Table Object
+        TableGenerator meep = new TableGenerator();
+
+        System.out.println(meep.generateTable(headers, rowsList));
+
     }
+
 }
+

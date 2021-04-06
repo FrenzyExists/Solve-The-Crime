@@ -66,7 +66,7 @@ while test $# -gt 0; do
       fi
       shift
       ;;
-    -s)
+    -s|--save)
       save_me="save"
       shift
       if test $# -gt 0; then
