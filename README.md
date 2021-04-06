@@ -59,13 +59,16 @@ chmod x+ stress.sh
 Then, 
 
 ```
-./stress.sh -- <> -- <> -- <> -- <>
+./stress.sh --params 10 50 50 1000 50 200 --save
 ```
 
+This will create a table of the stress test and will then save it in a csv file. The default Directory is at `Documents` and the file would be `stress.csv`, but you can override them if you wish.
 
+
+#### In case you find an issue, throw an issue on the github and I'll see what I can do :D
 
 ## TODO 🗒
-- [ ] Complete Optional Section
+- [ x ] Complete Optional Section
 
 ### NOTE
 This branch merged Methods 1 and 2 (Alfa and Beta) as a single file as both utilize the same base loop
